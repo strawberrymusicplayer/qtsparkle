@@ -4,27 +4,27 @@
 <context>
     <name>qtsparkle::UiController</name>
     <message>
-        <location filename="uicontroller.cpp" line="78"/>
+        <location filename="uicontroller.cpp" line="81"/>
         <source>Checking for updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uicontroller.cpp" line="79"/>
+        <location filename="uicontroller.cpp" line="82"/>
         <source>Checking for updates to %1, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uicontroller.cpp" line="103"/>
+        <location filename="uicontroller.cpp" line="108"/>
         <source>No updates available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uicontroller.cpp" line="103"/>
+        <location filename="uicontroller.cpp" line="108"/>
         <source>You already have the latest version of %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uicontroller.cpp" line="115"/>
+        <location filename="uicontroller.cpp" line="122"/>
         <source>Update check failed</source>
         <translation type="unfinished"></translation>
     </message>

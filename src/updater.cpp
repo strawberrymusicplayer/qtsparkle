@@ -72,7 +72,7 @@ struct Updater::Private {
   {
   }
 
-  void CheckNow();
+  void CheckNow(const bool quiet);
 
   QWidget* parent_widget_;
   Updater* updater_;
@@ -139,7 +139,7 @@ void Updater::SetUpdateInterval(int msec) {
 
 bool Updater::event(QEvent* e) {
   if (e->type() == d->auto_check_event_) {
-    d->CheckNow();
+    d->CheckNow(true);
     return true;
   }
 
@@ -147,16 +147,16 @@ bool Updater::event(QEvent* e) {
 }
 
 void Updater::CheckNow() {
-  d->CheckNow();
+  d->CheckNow(false);
 }
 
 void Updater::AutoCheck() {
-  d->CheckNow();
+  d->CheckNow(true);
 }
 
-void Updater::Private::CheckNow() {
+void Updater::Private::CheckNow(const bool quiet) {
   delete controller_;
-  controller_ = new UiController(updater_, parent_widget_);
+  controller_ = new UiController(quiet, updater_, parent_widget_);
   controller_->SetNetworkAccessManager(network_);
   controller_->SetIcon(icon_);
   controller_->SetVersion(version_);

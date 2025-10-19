@@ -37,7 +37,7 @@ class UiController : public QObject {
   Q_OBJECT
 
 public:
-  UiController(QObject* parent, QWidget* parent_widget);
+  UiController(const bool quiet, QObject* parent, QWidget* parent_widget);
   ~UiController();
 
   void SetNetworkAccessManager(QNetworkAccessManager* network);
