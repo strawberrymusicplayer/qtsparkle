@@ -30,7 +30,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QSettings>
 #include <QUrl>
 #include <QtDebug>
 
@@ -39,8 +38,7 @@ namespace qtsparkle {
 struct UpdateChecker::Private {
   Private()
     : network_(NULL),
-      busy_(false),
-      override_user_skip_(false)
+      busy_(false)
   {
   }
 
@@ -50,7 +48,6 @@ struct UpdateChecker::Private {
   QString version_;
 
   bool busy_;
-  bool override_user_skip_;
 };
 
 UpdateChecker::UpdateChecker(QObject* parent)
@@ -78,7 +75,7 @@ QNetworkRequest UpdateChecker::Private::MakeRequest(const QUrl& url) {
   return req;
 }
 
-void UpdateChecker::Check(const QUrl& appcast_url, bool override_user_skip) {
+void UpdateChecker::Check(const QUrl& appcast_url) {
   if (d->busy_)
     return;
 
@@ -88,7 +85,6 @@ void UpdateChecker::Check(const QUrl& appcast_url, bool override_user_skip) {
     d->network_ = new QNetworkAccessManager(this);
 
   d->busy_ = true;
-  d->override_user_skip_ = override_user_skip;
 
   FollowRedirects* reply = new FollowRedirects(
         d->network_->get(d->MakeRequest(appcast_url)));
@@ -115,16 +111,6 @@ void UpdateChecker::Finished() {
   if (!CompareVersions(d->version_, appcast->version())) {
     emit UpToDate();
     return;
-  }
-
-  // Has the user asked to skip this version?
-  if (!d->override_user_skip_) {
-    QSettings s;
-    s.beginGroup(kSettingsGroup);
-    if (s.value("skipped_version").toString() == appcast->version()) {
-      emit UpToDate();
-      return;
-    }
   }
 
   emit UpdateAvailable(appcast);
