@@ -1,3 +1,6 @@
-CMakeLists.txt.user*
-bin/
-mingw/
+/CMakeLists.txt.user*
+/CMakeSettings.json
+/bin/
+/mingw/
+/out/
+/.vs/
