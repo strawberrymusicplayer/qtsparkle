@@ -47,7 +47,7 @@ namespace qtsparkle {
 // function if you want to use a non-default language for qtsparkle.  If you
 // do not call this function, it will be called with the default language
 // (QLocale::system().name()) the first time qtsparkle::Updater is created.
-QTSPARKLE_EXPORT void LoadTranslations(const QString& language);
+QTSPARKLE_EXPORT bool LoadTranslations(const QString& language);
 
 
 // The Updater is the main class in qtsparkle that you should use in your

@@ -44,21 +44,30 @@ inline static void InitTranslationsResource() {
 
 namespace qtsparkle {
 
-void LoadTranslations(const QString& language) {
-  static bool sLoadedTranslations = false;
-  if (sLoadedTranslations) {
-    return;
+bool LoadTranslations(const QString& language) {
+
+  static bool sTranslationsResourceInit = false;
+  static bool sTranslationsLoaded = false;
+
+  if (!sTranslationsResourceInit) {
+    InitTranslationsResource();
+    sTranslationsResourceInit = true;
   }
-  sLoadedTranslations = true;
-  
-  InitTranslationsResource();
-  
+
+  if (sTranslationsLoaded) {
+    return false;
+  }
+
   QTranslator* t = new QTranslator;
   if (t->load(language, ":/qtsparkle/translations/")) {
     QCoreApplication::installTranslator(t);
-  } else {
-    delete t;
+    sTranslationsLoaded = true;
+    return true;
   }
+
+  delete t;
+  return false;
+
 }
 
 struct Updater::Private {
