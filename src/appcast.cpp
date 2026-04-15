@@ -27,6 +27,8 @@
 #include <QXmlStreamReader>
 #include <QtDebug>
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace qtsparkle {
 
 struct AppCast::Private {
@@ -48,19 +50,19 @@ struct AppCast::Private {
     while (!reader->atEnd()) {
       reader->readNext();
 
-      if (reader->tokenType() == QXmlStreamReader::EndElement && reader->name().toString() == "item")
+      if (reader->tokenType() == QXmlStreamReader::EndElement && reader->name().toString() == "item"_L1)
         break;
 
       if (reader->tokenType() == QXmlStreamReader::StartElement) {
-        if (reader->name().toString() == "releaseNotesLink" &&
-            reader->namespaceUri().toString() == Private::kNamespace) {
+        if (reader->name().toString() == "releaseNotesLink"_L1 &&
+            reader->namespaceUri().toString() == QLatin1String(Private::kNamespace)) {
           ret.release_notes_url_ = reader->readElementText().trimmed();
         }
-        else if (reader->name().toString() == "enclosure") {
+        else if (reader->name().toString() == "enclosure"_L1) {
           ret.download_url_ = reader->attributes().value("url").toString();
           ret.version_ = reader->attributes().value(Private::kNamespace, "version").toString();
         }
-        else if (reader->name().toString() == "description") {
+        else if (reader->name().toString() == "description"_L1) {
           reader->readNext();
           ret.description_ = reader->text().toString();
         }
@@ -102,7 +104,7 @@ bool AppCast::Load(QIODevice *dev) {
     reader.readNext();
 
     if (reader.tokenType() == QXmlStreamReader::StartElement &&
-        reader.name().toString() == "item") {
+        reader.name().toString() == "item"_L1) {
       Private::Item item = d->LoadItem(&reader);
       if (d->latest_ < item)
         d->latest_ = item;

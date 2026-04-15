@@ -24,10 +24,12 @@
 
 #include <QApplication>
 
+using namespace Qt::Literals::StringLiterals;
+
 int main(int argc, char **argv) {
   QApplication a(argc, argv);
-  QCoreApplication::setApplicationName("ExampleApp");
-  QCoreApplication::setApplicationVersion("2000");
+  QCoreApplication::setApplicationName(u"ExampleApp"_s);
+  QCoreApplication::setApplicationVersion(u"2000"_s);
 
   MainWindow w;
   w.show();

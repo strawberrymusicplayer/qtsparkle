@@ -31,6 +31,8 @@
 #include <QSettings>
 #include <QtDebug>
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace qtsparkle {
 
 struct UpdateDialog::Private {
@@ -54,7 +56,7 @@ UpdateDialog::UpdateDialog(QWidget *parent)
   d->ui_.reset(new Ui_UpdateDialog);
   d->ui_->setupUi(this);
 
-  d->ui_->release_notes_label->setText("<b>" + d->ui_->release_notes_label->text() + "</b>");
+  d->ui_->release_notes_label->setText("<b>"_L1 + d->ui_->release_notes_label->text() + "</b>"_L1);
   d->ui_->icon->hide();
 
   QObject::connect(d->ui_->install, &QPushButton::clicked, this, &UpdateDialog::Install);
@@ -86,7 +88,7 @@ void UpdateDialog::SetVersion(const QString &version) {
 void UpdateDialog::ShowUpdate(AppCastPtr appcast) {
   d->appcast_ = appcast;
 
-  d->ui_->title->setText("<h3>" + tr("A new version of %1 is available").arg(qApp->applicationName()) + "</h3>");
+  d->ui_->title->setText("<h3>"_L1 + tr("A new version of %1 is available").arg(qApp->applicationName()) + "</h3>"_L1);
   d->ui_->summary->setText(tr("%1 %2 is now available - you have %3.  Would you like to download it now?").arg(qApp->applicationName(), appcast->version(), d->version_));
 
   show();
@@ -98,7 +100,7 @@ void UpdateDialog::ShowUpdate(AppCastPtr appcast) {
     if (!d->network_)
       d->network_ = new QNetworkAccessManager(this);
 
-    FollowRedirects *reply = new FollowRedirects(d->network_->get(QNetworkRequest(appcast->release_notes_url())));
+    FollowRedirects *reply = new FollowRedirects(d->network_->get(QNetworkRequest(QUrl(appcast->release_notes_url()))));
     QObject::connect(reply, &FollowRedirects::Finished, this, &UpdateDialog::ReleaseNotesReady);
   }
 }
@@ -109,11 +111,11 @@ void UpdateDialog::ReleaseNotesReady() {
     return;
   reply->deleteLater();
 
-  if (reply->reply()->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/html")) {
-    d->ui_->release_notes->setHtml(reply->reply()->readAll());
+  if (reply->reply()->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/html"_L1)) {
+    d->ui_->release_notes->setHtml(QString::fromUtf8(reply->reply()->readAll()));
   }
   else {
-    d->ui_->release_notes->setPlainText(reply->reply()->readAll());
+    d->ui_->release_notes->setPlainText(QString::fromUtf8(reply->reply()->readAll()));
   }
 }
 
@@ -121,7 +123,7 @@ void UpdateDialog::Install() {
   if (!d->appcast_)
     return;
 
-  QDesktopServices::openUrl(d->appcast_->download_url());
+  QDesktopServices::openUrl(QUrl(d->appcast_->download_url()));
   close();
 }
 

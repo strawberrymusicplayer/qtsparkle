@@ -37,6 +37,7 @@
 #include <QtDebug>
 #include <QLocale>
 
+using namespace Qt::Literals::StringLiterals;
 
 inline static void InitTranslationsResource() {
   Q_INIT_RESOURCE(qtsparkle_translations);
@@ -60,7 +61,7 @@ bool LoadTranslations(const QString &language) {
   }
 
   QTranslator *t = new QTranslator;
-  if (t->load(language, ":/qtsparkle/translations/")) {
+  if (t->load(language, ":/qtsparkle/translations/"_L1)) {
     QCoreApplication::installTranslator(t);
     sTranslationsLoaded = true;
     return true;

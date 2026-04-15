@@ -35,6 +35,8 @@
 #include <QUrl>
 #include <QtDebug>
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace qtsparkle {
 
 struct UpdateChecker::Private {
@@ -129,7 +131,7 @@ void UpdateChecker::Finished() {
 }
 
 void UpdateChecker::RedirectLimitReached() {
-  Q_EMIT CheckFailed("Redirect limit reached");
+  Q_EMIT CheckFailed("Redirect limit reached"_L1);
 }
 
 }  // namespace qtsparkle

@@ -27,15 +27,17 @@
 #include <QPushButton>
 #include <QUrl>
 
+using namespace Qt::Literals::StringLiterals;
+
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent),
-      updater_(new qtsparkle::Updater(QUrl("http://dev.latest.clementine-player.appspot.com/sparkle"), this)) {
+      updater_(new qtsparkle::Updater(QUrl(u"http://dev.latest.clementine-player.appspot.com/sparkle"_s), this)) {
   resize(600, 400);
 
-  QPushButton *c = new QPushButton("Check for updates", this);
+  QPushButton *c = new QPushButton(u"Check for updates"_s, this);
   c->setGeometry(100, 100, c->sizeHint().width(), c->sizeHint().height());
 
-  QPushButton *e = new QPushButton("Exit", this);
+  QPushButton *e = new QPushButton(u"Exit"_s, this);
   e->setGeometry(100, 200, e->sizeHint().width(), e->sizeHint().height());
 
   connect(c, SIGNAL(clicked()), updater_, SLOT(CheckNow()));

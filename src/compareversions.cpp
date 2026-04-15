@@ -41,7 +41,7 @@ enum class CharType {
 };
 
 CharType ClassifyChar(const QChar &c) {
-  if (c == '.')
+  if (c == u'.')
     return CharType::Type_Period;
   if (c.isDigit())
     return CharType::Type_Number;
