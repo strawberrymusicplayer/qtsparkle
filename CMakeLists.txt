@@ -14,9 +14,46 @@ include(cmake/Translations.cmake)
 option(BUILD_STATIC_LIBS "Static build" OFF)
 option(BUILD_SHARED_LIBS "Shared build" ON)
 
-if(NOT MSVC)
-  add_compile_options(-Wall)
+if(MSVC)
+  set(CMAKE_C_STANDARD 99)
+else()
+  set(CMAKE_C_STANDARD 11)
 endif()
+
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if(MSVC)
+  list(APPEND COMPILE_OPTIONS -MP -W4 -wd4702)
+else()
+  list(APPEND COMPILE_OPTIONS
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Wunused
+    -Wshadow
+    -Wundef
+    -Wuninitialized
+    -Wredundant-decls
+    -Wcast-align
+    -Winit-self
+    -Wmissing-include-dirs
+    -Wmissing-declarations
+    -Wstrict-overflow=2
+    -Wunused-parameter
+    -Wformat=2
+    -Wdisabled-optimization
+    $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
+    $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
+  )
+  if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    list(APPEND COMPILE_OPTIONS -Wno-unused-command-line-argument)
+  endif()
+endif()
+
+add_compile_options(${COMPILE_OPTIONS})
 
 set(QT_VERSION_MAJOR 6)
 
