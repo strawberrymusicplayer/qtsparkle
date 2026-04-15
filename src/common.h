@@ -25,8 +25,8 @@
 
 namespace qtsparkle {
 
-extern const char* kSettingsGroup;
+extern const char *kSettingsGroup;
 
-} // namespace qtsparkle
+}  // namespace qtsparkle
 
-#endif // QTSPARKLE_COMMON_H
+#endif  // QTSPARKLE_COMMON_H

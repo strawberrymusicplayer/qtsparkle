@@ -35,20 +35,19 @@ namespace qtsparkle {
 
 struct UiController::Private {
   bool quiet_;
-  QWidget* parent_widget_;
+  QWidget *parent_widget_;
 
-  QNetworkAccessManager* network_;
+  QNetworkAccessManager *network_;
   QIcon icon_;
   QString version_;
 
   QPointer<UpdateDialog> dialog_;
-  QProgressDialog* progress_dialog_;
+  QProgressDialog *progress_dialog_;
 };
 
-UiController::UiController(const bool quiet, QObject* parent, QWidget* parent_widget)
-  : QObject(parent),
-    d(new Private)
-{
+UiController::UiController(const bool quiet, QObject *parent, QWidget *parent_widget)
+    : QObject(parent),
+      d(new Private) {
   d->quiet_ = quiet;
   d->parent_widget_ = parent_widget;
   d->progress_dialog_ = NULL;
@@ -59,15 +58,15 @@ UiController::~UiController() {
   delete d->dialog_;
 }
 
-void UiController::SetNetworkAccessManager(QNetworkAccessManager* network) {
+void UiController::SetNetworkAccessManager(QNetworkAccessManager *network) {
   d->network_ = network;
 }
 
-void UiController::SetIcon(const QIcon& icon) {
+void UiController::SetIcon(const QIcon &icon) {
   d->icon_ = icon;
 }
 
-void UiController::SetVersion(const QString& version) {
+void UiController::SetVersion(const QString &version) {
   d->version_ = version;
 }
 
@@ -111,7 +110,7 @@ void UiController::UpToDate() {
   deleteLater();
 }
 
-void UiController::CheckFailed(const QString& reason) {
+void UiController::CheckFailed(const QString &reason) {
   qWarning() << "Update check failed:" << reason;
 
   if (d->progress_dialog_) {
@@ -125,4 +124,4 @@ void UiController::CheckFailed(const QString& reason) {
   deleteLater();
 }
 
-} // namespace qtsparkle
+}  // namespace qtsparkle

@@ -30,6 +30,6 @@ namespace qtsparkle {
 class AppCast;
 typedef QSharedPointer<AppCast> AppCastPtr;
 
-} // namespace qtsparkle
+}  // namespace qtsparkle
 
-#endif // QTSPAKRLE_APPCAST_FWD_H
+#endif  // QTSPAKRLE_APPCAST_FWD_H

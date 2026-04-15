@@ -35,33 +35,35 @@ struct AppCast::Private {
     QString release_notes_url_;
     QString description_;
 
-    bool operator <(const Item& other) const {
+    bool operator<(const Item &other) const {
       return CompareVersions(version_, other.version_);
     }
   };
   typedef QList<Item> ItemList;
 
-  static Item LoadItem(QXmlStreamReader* reader) {
+  static Item LoadItem(QXmlStreamReader *reader) {
     Item ret;
 
     while (!reader->atEnd()) {
       reader->readNext();
 
-      if (reader->tokenType() == QXmlStreamReader::EndElement
-          && reader->name().toString() == "item")
+      if (reader->tokenType() == QXmlStreamReader::EndElement && reader->name().toString() == "item")
         break;
 
       if (reader->tokenType() == QXmlStreamReader::StartElement) {
         if (reader->name().toString() == "releaseNotesLink" &&
             reader->namespaceUri().toString() == Private::kNamespace) {
           ret.release_notes_url_ = reader->readElementText().trimmed();
-        } else if (reader->name().toString() == "enclosure") {
+        }
+        else if (reader->name().toString() == "enclosure") {
           ret.download_url_ = reader->attributes().value("url").toString();
           ret.version_ = reader->attributes().value(Private::kNamespace, "version").toString();
-        } else if (reader->name().toString() == "description") {
+        }
+        else if (reader->name().toString() == "description") {
           reader->readNext();
           ret.description_ = reader->text().toString();
-        } else {
+        }
+        else {
           reader->skipCurrentElement();
         }
       }
@@ -72,15 +74,14 @@ struct AppCast::Private {
   Item latest_;
   QString error_reason_;
 
-  static const char* kNamespace;
+  static const char *kNamespace;
 };
 
-const char* AppCast::Private::kNamespace = "http://www.andymatuschak.org/xml-namespaces/sparkle";
+const char *AppCast::Private::kNamespace = "http://www.andymatuschak.org/xml-namespaces/sparkle";
 
 
 AppCast::AppCast()
-  : d(new Private)
-{
+    : d(new Private) {
 }
 
 AppCast::~AppCast() {
@@ -92,7 +93,7 @@ QString AppCast::release_notes_url() const { return d->latest_.release_notes_url
 QString AppCast::description() const { return d->latest_.description_; }
 QString AppCast::error_reason() const { return d->error_reason_; }
 
-bool AppCast::Load(QIODevice* dev) {
+bool AppCast::Load(QIODevice *dev) {
   QXmlStreamReader reader(dev);
 
   d->latest_ = Private::Item();
@@ -111,4 +112,4 @@ bool AppCast::Load(QIODevice* dev) {
   return !reader.hasError();
 }
 
-} // namespace qtsparkle
+}  // namespace qtsparkle

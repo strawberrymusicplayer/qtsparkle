@@ -34,13 +34,12 @@ namespace qtsparkle {
 
 struct UpdateDialog::Private {
   Private()
-    : network_(NULL)
-  {
+      : network_(NULL) {
   }
 
   QScopedPointer<Ui_UpdateDialog> ui_;
 
-  QNetworkAccessManager* network_;
+  QNetworkAccessManager *network_;
   QString version_;
   AppCastPtr appcast_;
 
@@ -51,14 +50,13 @@ const int UpdateDialog::Private::kIconSize = 64;
 
 
 UpdateDialog::UpdateDialog(QWidget *parent)
-  : QDialog(parent),
-    d(new Private)
-{
+    : QDialog(parent),
+      d(new Private) {
   d->ui_.reset(new Ui_UpdateDialog);
   d->ui_->setupUi(this);
 
   d->ui_->release_notes_label->setText(
-      "<b>" + d->ui_->release_notes_label->text() + "</b>");
+    "<b>" + d->ui_->release_notes_label->text() + "</b>");
   d->ui_->icon->hide();
 
   connect(d->ui_->install, SIGNAL(clicked()), SLOT(Install()));
@@ -69,20 +67,21 @@ UpdateDialog::UpdateDialog(QWidget *parent)
 UpdateDialog::~UpdateDialog() {
 }
 
-void UpdateDialog::SetNetworkAccessManager(QNetworkAccessManager* network) {
+void UpdateDialog::SetNetworkAccessManager(QNetworkAccessManager *network) {
   d->network_ = network;
 }
 
-void UpdateDialog::SetIcon(const QIcon& icon) {
+void UpdateDialog::SetIcon(const QIcon &icon) {
   if (icon.isNull()) {
     d->ui_->icon->hide();
-  } else {
+  }
+  else {
     d->ui_->icon->setPixmap(icon.pixmap(Private::kIconSize));
     d->ui_->icon->show();
   }
 }
 
-void UpdateDialog::SetVersion(const QString& version) {
+void UpdateDialog::SetVersion(const QString &version) {
   d->version_ = version;
 }
 
@@ -90,35 +89,36 @@ void UpdateDialog::ShowUpdate(AppCastPtr appcast) {
   d->appcast_ = appcast;
 
   d->ui_->title->setText("<h3>" +
-      tr("A new version of %1 is available").arg(qApp->applicationName()) + "</h3>");
+                         tr("A new version of %1 is available").arg(qApp->applicationName()) + "</h3>");
   d->ui_->summary->setText(
-      tr("%1 %2 is now available - you have %3.  Would you like to download it now?")
+    tr("%1 %2 is now available - you have %3.  Would you like to download it now?")
       .arg(qApp->applicationName(), appcast->version(), d->version_));
 
   show();
 
   if (!appcast->description().isEmpty()) {
     d->ui_->release_notes->setHtml(appcast->description());
-  } else {
+  }
+  else {
     if (!d->network_)
       d->network_ = new QNetworkAccessManager(this);
 
-    FollowRedirects* reply = new FollowRedirects(
-        d->network_->get(QNetworkRequest(appcast->release_notes_url())));
+    FollowRedirects *reply = new FollowRedirects(
+      d->network_->get(QNetworkRequest(appcast->release_notes_url())));
     connect(reply, SIGNAL(Finished()), SLOT(ReleaseNotesReady()));
   }
 }
 
 void UpdateDialog::ReleaseNotesReady() {
-  FollowRedirects* reply = qobject_cast<FollowRedirects*>(sender());
+  FollowRedirects *reply = qobject_cast<FollowRedirects *>(sender());
   if (!reply)
     return;
   reply->deleteLater();
 
-  if (reply->reply()->header(QNetworkRequest::ContentTypeHeader).toString()
-      .contains("text/html")) {
+  if (reply->reply()->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/html")) {
     d->ui_->release_notes->setHtml(reply->reply()->readAll());
-  } else {
+  }
+  else {
     d->ui_->release_notes->setPlainText(reply->reply()->readAll());
   }
 }
@@ -141,4 +141,4 @@ void UpdateDialog::Skip() {
   close();
 }
 
-} // namespace qtsparkle
+}  // namespace qtsparkle

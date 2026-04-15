@@ -24,6 +24,6 @@
 
 namespace qtsparkle {
 
-const char* kSettingsGroup = "QtSparkle";
+const char *kSettingsGroup = "QtSparkle";
 
-} // namespace qtsparkle
+}  // namespace qtsparkle

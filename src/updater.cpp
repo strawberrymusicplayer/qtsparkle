@@ -44,7 +44,7 @@ inline static void InitTranslationsResource() {
 
 namespace qtsparkle {
 
-bool LoadTranslations(const QString& language) {
+bool LoadTranslations(const QString &language) {
 
   static bool sTranslationsResourceInit = false;
   static bool sTranslationsLoaded = false;
@@ -58,7 +58,7 @@ bool LoadTranslations(const QString& language) {
     return false;
   }
 
-  QTranslator* t = new QTranslator;
+  QTranslator *t = new QTranslator;
   if (t->load(language, ":/qtsparkle/translations/")) {
     QCoreApplication::installTranslator(t);
     sTranslationsLoaded = true;
@@ -67,26 +67,25 @@ bool LoadTranslations(const QString& language) {
 
   delete t;
   return false;
-
 }
 
 struct Updater::Private {
-  Private(const QUrl& appcast_url, QWidget* parent_widget, Updater* updater)
-    : parent_widget_(parent_widget),
-      updater_(updater),
-      network_(NULL),
-      appcast_url_(appcast_url),
-      update_check_timer_(NULL),
-      update_check_interval_msec_(86400000) // one day
+  Private(const QUrl &appcast_url, QWidget *parent_widget, Updater *updater)
+      : parent_widget_(parent_widget),
+        updater_(updater),
+        network_(NULL),
+        appcast_url_(appcast_url),
+        update_check_timer_(NULL),
+        update_check_interval_msec_(86400000)  // one day
   {
   }
 
   void CheckNow(const bool quiet);
 
-  QWidget* parent_widget_;
-  Updater* updater_;
+  QWidget *parent_widget_;
+  Updater *updater_;
 
-  QNetworkAccessManager* network_;
+  QNetworkAccessManager *network_;
   QIcon icon_;
   QString version_;
 
@@ -95,20 +94,19 @@ struct Updater::Private {
   QEvent::Type ask_permission_event_;
   QEvent::Type auto_check_event_;
 
-  QTimer* update_check_timer_;
+  QTimer *update_check_timer_;
   int update_check_interval_msec_;
 
   QPointer<UiController> controller_;
 };
 
 
-Updater::Updater(const QUrl& appcast_url, QWidget* parent)
-  : QObject(parent),
-    d(new Private(appcast_url, parent, this))
-{
+Updater::Updater(const QUrl &appcast_url, QWidget *parent)
+    : QObject(parent),
+      d(new Private(appcast_url, parent, this)) {
   // Load translations if they haven't been loaded already.
   LoadTranslations(QLocale::system().name());
-  
+
   d->ask_permission_event_ = QEvent::Type(QEvent::registerEventType());
   d->auto_check_event_ = QEvent::Type(QEvent::registerEventType());
   d->version_ = QCoreApplication::applicationVersion();
@@ -127,15 +125,15 @@ Updater::Updater(const QUrl& appcast_url, QWidget* parent)
 Updater::~Updater() {
 }
 
-void Updater::SetIcon(const QIcon& icon) {
+void Updater::SetIcon(const QIcon &icon) {
   d->icon_ = icon;
 }
 
-void Updater::SetNetworkAccessManager(QNetworkAccessManager* network) {
+void Updater::SetNetworkAccessManager(QNetworkAccessManager *network) {
   d->network_ = network;
 }
 
-void Updater::SetVersion(const QString& version) {
+void Updater::SetVersion(const QString &version) {
   d->version_ = version;
 }
 
@@ -146,7 +144,7 @@ void Updater::SetUpdateInterval(int msec) {
   d->update_check_interval_msec_ = msec;
 }
 
-bool Updater::event(QEvent* e) {
+bool Updater::event(QEvent *e) {
   if (e->type() == d->auto_check_event_) {
     d->CheckNow(true);
     return true;
@@ -170,7 +168,7 @@ void Updater::Private::CheckNow(const bool quiet) {
   controller_->SetIcon(icon_);
   controller_->SetVersion(version_);
 
-  UpdateChecker* checker = new UpdateChecker(updater_);
+  UpdateChecker *checker = new UpdateChecker(updater_);
   checker->SetNetworkAccessManager(network_);
   checker->SetVersion(version_);
 
@@ -184,7 +182,6 @@ void Updater::Private::CheckNow(const bool quiet) {
   // The UiController will delete itself when the check is finished.
 
   update_check_timer_->start(update_check_interval_msec_);
-
 }
 
-} // namespace qtsparkle
+}  // namespace qtsparkle

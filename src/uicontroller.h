@@ -36,25 +36,25 @@ namespace qtsparkle {
 class UiController : public QObject {
   Q_OBJECT
 
-public:
-  UiController(const bool quiet, QObject* parent, QWidget* parent_widget);
+ public:
+  UiController(const bool quiet, QObject *parent, QWidget *parent_widget);
   ~UiController();
 
-  void SetNetworkAccessManager(QNetworkAccessManager* network);
-  void SetIcon(const QIcon& icon);
-  void SetVersion(const QString& version);
+  void SetNetworkAccessManager(QNetworkAccessManager *network);
+  void SetIcon(const QIcon &icon);
+  void SetVersion(const QString &version);
 
-public Q_SLOTS:
+ public Q_SLOTS:
   void CheckStarted();
   void UpdateAvailable(AppCastPtr appcast);
   void UpToDate();
-  void CheckFailed(const QString& reason);
+  void CheckFailed(const QString &reason);
 
-private:
+ private:
   struct Private;
   QScopedPointer<Private> d;
 };
 
-} // namespace qtsparkle
+}  // namespace qtsparkle
 
-#endif // QTSPAKRLE_UICONTROLLER_H
+#endif  // QTSPAKRLE_UICONTROLLER_H

@@ -22,26 +22,25 @@
 
 #include "mainwindow.h"
 
-#if QT_VERSION < QT_VERSION_CHECK( 5, 0, 0 )
-#include <qtsparkle/Updater>
-#elif QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
-#include <qtsparkle-qt5/Updater>
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+#  include <qtsparkle/Updater>
+#elif QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#  include <qtsparkle-qt5/Updater>
 #else
-#include <qtsparkle-qt6/Updater>
+#  include <qtsparkle-qt6/Updater>
 #endif
 
 #include <QPushButton>
 #include <QUrl>
 
 MainWindow::MainWindow()
-  : updater_(new qtsparkle::Updater(QUrl("http://dev.latest.clementine-player.appspot.com/sparkle"), this))
-{
+    : updater_(new qtsparkle::Updater(QUrl("http://dev.latest.clementine-player.appspot.com/sparkle"), this)) {
   resize(600, 400);
 
-  QPushButton* c = new QPushButton("Check for updates", this);
+  QPushButton *c = new QPushButton("Check for updates", this);
   c->setGeometry(100, 100, c->sizeHint().width(), c->sizeHint().height());
 
-  QPushButton* e = new QPushButton("Exit", this);
+  QPushButton *e = new QPushButton("Exit", this);
   e->setGeometry(100, 200, e->sizeHint().width(), e->sizeHint().height());
 
   connect(c, SIGNAL(clicked()), updater_, SLOT(CheckNow()));

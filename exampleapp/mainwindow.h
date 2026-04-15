@@ -26,15 +26,15 @@
 #include <QWidget>
 
 namespace qtsparkle {
-  class Updater;
+class Updater;
 }
 
 class MainWindow : public QWidget {
-public:
+ public:
   MainWindow();
 
-private:
-  qtsparkle::Updater* updater_;
+ private:
+  qtsparkle::Updater *updater_;
 };
 
 #endif

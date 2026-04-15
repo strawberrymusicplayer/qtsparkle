@@ -32,11 +32,11 @@ class QIODevice;
 namespace qtsparkle {
 
 class AppCast {
-public:
+ public:
   AppCast();
   ~AppCast();
 
-  bool Load(QIODevice* dev);
+  bool Load(QIODevice *dev);
 
   QString version() const;
   QString download_url() const;
@@ -45,13 +45,13 @@ public:
 
   QString error_reason() const;
 
-private:
+ private:
   Q_DISABLE_COPY(AppCast)
 
   struct Private;
   QScopedPointer<Private> d;
 };
 
-} // namespace qtsparkle
+}  // namespace qtsparkle
 
-#endif // QTSPAKRLE_APPCAST_H
+#endif  // QTSPAKRLE_APPCAST_H

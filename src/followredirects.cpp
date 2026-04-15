@@ -26,20 +26,18 @@ namespace qtsparkle {
 
 struct FollowRedirects::Private {
   Private()
-    : reply_(NULL),
-      redirect_count_(0)
-  {
+      : reply_(NULL),
+        redirect_count_(0) {
   }
 
-  QNetworkReply* reply_;
+  QNetworkReply *reply_;
   int redirect_count_;
 
   static const int kMaxRedirects = 5;
 };
 
-FollowRedirects::FollowRedirects(QNetworkReply* reply)
-  : d(new Private)
-{
+FollowRedirects::FollowRedirects(QNetworkReply *reply)
+    : d(new Private) {
   d->reply_ = reply;
   connect(reply, SIGNAL(finished()), SLOT(FinishedSlot()));
 }
@@ -48,17 +46,17 @@ FollowRedirects::~FollowRedirects() {
   delete d->reply_;
 }
 
-QNetworkReply* FollowRedirects::reply() const {
+QNetworkReply *FollowRedirects::reply() const {
   return d->reply_;
 }
 
 void FollowRedirects::FinishedSlot() {
-  QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+  QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
   if (!reply || reply != d->reply_)
     return;
 
   QVariant redirect_target = reply->attribute(
-        QNetworkRequest::RedirectionTargetAttribute);
+    QNetworkRequest::RedirectionTargetAttribute);
   if (redirect_target.isValid()) {
     reply->deleteLater();
 
@@ -68,7 +66,7 @@ void FollowRedirects::FinishedSlot() {
       return;
     }
 
-    d->redirect_count_ ++;
+    d->redirect_count_++;
 
     QUrl target = redirect_target.toUrl();
     if (target.scheme().isEmpty() || target.host().isEmpty()) {
@@ -81,7 +79,7 @@ void FollowRedirects::FinishedSlot() {
 
     // Copy the cache control attribute from the last request
     req.setAttribute(QNetworkRequest::CacheLoadControlAttribute,
-        d->reply_->request().attribute(QNetworkRequest::CacheLoadControlAttribute));
+                     d->reply_->request().attribute(QNetworkRequest::CacheLoadControlAttribute));
 
     d->reply_ = d->reply_->manager()->get(req);
     connect(d->reply_, SIGNAL(finished()), SLOT(FinishedSlot()));
@@ -91,4 +89,4 @@ void FollowRedirects::FinishedSlot() {
   emit Finished();
 }
 
-} // namespace qtsparkle
+}  // namespace qtsparkle

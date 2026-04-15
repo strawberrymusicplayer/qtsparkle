@@ -38,39 +38,37 @@ namespace qtsparkle {
 
 struct UpdateChecker::Private {
   Private()
-    : network_(NULL),
-      busy_(false),
-      override_user_skip_(false)
-  {
+      : network_(NULL),
+        busy_(false),
+        override_user_skip_(false) {
   }
 
-  QNetworkRequest MakeRequest(const QUrl& url);
+  QNetworkRequest MakeRequest(const QUrl &url);
 
-  QNetworkAccessManager* network_;
+  QNetworkAccessManager *network_;
   QString version_;
 
   bool busy_;
   bool override_user_skip_;
 };
 
-UpdateChecker::UpdateChecker(QObject* parent)
-  : QObject(parent),
-    d(new Private)
-{
+UpdateChecker::UpdateChecker(QObject *parent)
+    : QObject(parent),
+      d(new Private) {
 }
 
 UpdateChecker::~UpdateChecker() {
 }
 
-void UpdateChecker::SetNetworkAccessManager(QNetworkAccessManager* network) {
+void UpdateChecker::SetNetworkAccessManager(QNetworkAccessManager *network) {
   d->network_ = network;
 }
 
-void UpdateChecker::SetVersion(const QString& version) {
+void UpdateChecker::SetVersion(const QString &version) {
   d->version_ = version;
 }
 
-QNetworkRequest UpdateChecker::Private::MakeRequest(const QUrl& url) {
+QNetworkRequest UpdateChecker::Private::MakeRequest(const QUrl &url) {
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::CacheLoadControlAttribute,
                    QNetworkRequest::AlwaysNetwork);
@@ -78,7 +76,7 @@ QNetworkRequest UpdateChecker::Private::MakeRequest(const QUrl& url) {
   return req;
 }
 
-void UpdateChecker::Check(const QUrl& appcast_url, const bool override_user_skip) {
+void UpdateChecker::Check(const QUrl &appcast_url, const bool override_user_skip) {
   if (d->busy_)
     return;
 
@@ -90,14 +88,14 @@ void UpdateChecker::Check(const QUrl& appcast_url, const bool override_user_skip
   d->busy_ = true;
   d->override_user_skip_ = override_user_skip;
 
-  FollowRedirects* reply = new FollowRedirects(
-        d->network_->get(d->MakeRequest(appcast_url)));
+  FollowRedirects *reply = new FollowRedirects(
+    d->network_->get(d->MakeRequest(appcast_url)));
   connect(reply, SIGNAL(Finished()), SLOT(Finished()));
   connect(reply, SIGNAL(RedirectLimitReached()), SLOT(RedirectLimitReached()));
 }
 
 void UpdateChecker::Finished() {
-  FollowRedirects* reply = qobject_cast<FollowRedirects*>(sender());
+  FollowRedirects *reply = qobject_cast<FollowRedirects *>(sender());
   if (!reply)
     return;
   reply->deleteLater();
@@ -134,4 +132,4 @@ void UpdateChecker::RedirectLimitReached() {
   emit CheckFailed("Redirect limit reached");
 }
 
-} // namespace qtsparkle
+}  // namespace qtsparkle

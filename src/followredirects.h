@@ -32,25 +32,25 @@ namespace qtsparkle {
 class FollowRedirects : public QObject {
   Q_OBJECT
 
-public:
-  FollowRedirects(QNetworkReply* reply);
+ public:
+  FollowRedirects(QNetworkReply *reply);
   ~FollowRedirects();
 
-  QNetworkReply* reply() const;
+  QNetworkReply *reply() const;
 
-Q_SIGNALS:
+ Q_SIGNALS:
   void Finished();
   void RedirectLimitReached();
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void FinishedSlot();
 
-private:
+ private:
   struct Private;
   friend struct Private;
   QScopedPointer<Private> d;
 };
 
-} // namespace qtsparkle
+}  // namespace qtsparkle
 
-#endif // QTSPAKRLE_FOLLOWREDIRECTS_H
+#endif  // QTSPAKRLE_FOLLOWREDIRECTS_H

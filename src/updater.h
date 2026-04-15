@@ -47,7 +47,7 @@ namespace qtsparkle {
 // function if you want to use a non-default language for qtsparkle.  If you
 // do not call this function, it will be called with the default language
 // (QLocale::system().name()) the first time qtsparkle::Updater is created.
-QTSPARKLE_EXPORT bool LoadTranslations(const QString& language);
+QTSPARKLE_EXPORT bool LoadTranslations(const QString &language);
 
 
 // The Updater is the main class in qtsparkle that you should use in your
@@ -62,11 +62,11 @@ QTSPARKLE_EXPORT bool LoadTranslations(const QString& language);
 class QTSPARKLE_EXPORT Updater : public QObject {
   Q_OBJECT
 
-public:
+ public:
   // appcast_url is the URL that this class should use when checking for
   // updates.  If parent is not NULL then any dialogs created by this class
   // are parented to that widget.
-  Updater(const QUrl& appcast_url, QWidget* parent);
+  Updater(const QUrl &appcast_url, QWidget *parent);
   ~Updater();
 
   // Sets a network access manager to use when making network requests.  If
@@ -76,38 +76,38 @@ public:
   // object is created.
   // The Updater will NOT take ownership of the network manager, and you must
   // ensure it is not deleted while the Updater is still in scope.
-  void SetNetworkAccessManager(QNetworkAccessManager* network);
+  void SetNetworkAccessManager(QNetworkAccessManager *network);
 
   // Sets an icon to use in any dialogs that are created.  If no icon is set,
   // the windowIcon() of the parent widget passed to the constructor is used
   // instead.  The icon should be 64x64 pixels or greater.
-  void SetIcon(const QIcon& icon);
+  void SetIcon(const QIcon &icon);
 
   // Sets the current version.  If this is not called then the default is to
   // use QCoreApplication::applicationVersion()
-  void SetVersion(const QString& version);
+  void SetVersion(const QString &version);
 
   // Sets the update check interval in msec. Default value is one day (86400000).
   // Minimum value is one hour (3600000)
   void SetUpdateInterval(int msec);
 
-public Q_SLOTS:
+ public Q_SLOTS:
   // Checks for updates now.  You probably want to call this from a menu item
   // in your application's main window.
   void CheckNow();
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void AutoCheck();
 
-protected:
-  bool event(QEvent* e);
+ protected:
+  bool event(QEvent *e);
 
-private:
+ private:
   struct Private;
   QScopedPointer<Private> d;
 };
 
-} // namespace qtsparkle
+}  // namespace qtsparkle
 
 
-#endif // QTSPARKLE_UPDATER_H
+#endif  // QTSPARKLE_UPDATER_H

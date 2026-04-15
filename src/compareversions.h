@@ -27,8 +27,8 @@
 
 namespace qtsparkle {
 
-bool CompareVersions(const QString& left, const QString& right);
+bool CompareVersions(const QString &left, const QString &right);
 
 }
 
-#endif // QTSPAKRLE_COMPAREVERSIONS_H
+#endif  // QTSPAKRLE_COMPAREVERSIONS_H

@@ -35,29 +35,29 @@ namespace qtsparkle {
 class UpdateChecker : public QObject {
   Q_OBJECT
 
-public:
-  UpdateChecker(QObject* parent);
+ public:
+  UpdateChecker(QObject *parent);
   ~UpdateChecker();
 
-  void SetNetworkAccessManager(QNetworkAccessManager* network);
-  void SetVersion(const QString& version);
-  void Check(const QUrl& appcast_url, const bool override_user_skip);
+  void SetNetworkAccessManager(QNetworkAccessManager *network);
+  void SetVersion(const QString &version);
+  void Check(const QUrl &appcast_url, const bool override_user_skip);
 
-Q_SIGNALS:
+ Q_SIGNALS:
   void CheckStarted();
   void UpdateAvailable(AppCastPtr appcast);
   void UpToDate();
-  void CheckFailed(const QString& reason);
+  void CheckFailed(const QString &reason);
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void Finished();
   void RedirectLimitReached();
 
-private:
+ private:
   struct Private;
   QScopedPointer<Private> d;
 };
 
-} // namespace qtsparkle
+}  // namespace qtsparkle
 
-#endif // QTSPAKRLE_UPDATECHECKER_H
+#endif  // QTSPAKRLE_UPDATECHECKER_H

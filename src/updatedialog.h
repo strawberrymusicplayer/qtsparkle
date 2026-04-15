@@ -36,27 +36,27 @@ namespace qtsparkle {
 class UpdateDialog : public QDialog {
   Q_OBJECT
 
-public:
-  UpdateDialog(QWidget* parent = 0);
+ public:
+  UpdateDialog(QWidget *parent = 0);
   ~UpdateDialog();
 
-  void SetNetworkAccessManager(QNetworkAccessManager* network);
-  void SetIcon(const QIcon& icon);
-  void SetVersion(const QString& version);
+  void SetNetworkAccessManager(QNetworkAccessManager *network);
+  void SetIcon(const QIcon &icon);
+  void SetVersion(const QString &version);
 
-public Q_SLOTS:
+ public Q_SLOTS:
   void ShowUpdate(AppCastPtr appcast);
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void ReleaseNotesReady();
   void Install();
   void Skip();
 
-private:
+ private:
   struct Private;
   QScopedPointer<Private> d;
 };
 
-} // namespace qtsparkle
+}  // namespace qtsparkle
 
-#endif // QTSPAKRLE_UPDATEDIALOG_H
+#endif  // QTSPAKRLE_UPDATEDIALOG_H
