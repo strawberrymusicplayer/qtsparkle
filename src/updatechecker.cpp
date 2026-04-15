@@ -80,7 +80,7 @@ void UpdateChecker::Check(const QUrl &appcast_url, const bool override_user_skip
   if (d->busy_)
     return;
 
-  emit CheckStarted();
+  Q_EMIT CheckStarted();
 
   if (!d->network_)
     d->network_ = new QNetworkAccessManager(this);
@@ -105,13 +105,13 @@ void UpdateChecker::Finished() {
   AppCastPtr appcast(new AppCast);
   bool success = appcast->Load(reply->reply());
   if (!success) {
-    emit CheckFailed(appcast->error_reason());
+    Q_EMIT CheckFailed(appcast->error_reason());
     return;
   }
 
   // Is the application version greater than or equal to the latest version?
   if (!CompareVersions(d->version_, appcast->version())) {
-    emit UpToDate();
+    Q_EMIT UpToDate();
     return;
   }
 
@@ -120,16 +120,16 @@ void UpdateChecker::Finished() {
     QSettings s;
     s.beginGroup(kSettingsGroup);
     if (s.value("skipped_version").toString() == appcast->version()) {
-      emit UpToDate();
+      Q_EMIT UpToDate();
       return;
     }
   }
 
-  emit UpdateAvailable(appcast);
+  Q_EMIT UpdateAvailable(appcast);
 }
 
 void UpdateChecker::RedirectLimitReached() {
-  emit CheckFailed("Redirect limit reached");
+  Q_EMIT CheckFailed("Redirect limit reached");
 }
 
 }  // namespace qtsparkle

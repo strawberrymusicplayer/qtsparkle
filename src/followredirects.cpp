@@ -62,7 +62,7 @@ void FollowRedirects::FinishedSlot() {
 
     if (d->redirect_count_ >= Private::kMaxRedirects) {
       d->reply_ = nullptr;
-      emit RedirectLimitReached();
+      Q_EMIT RedirectLimitReached();
       return;
     }
 
@@ -86,7 +86,7 @@ void FollowRedirects::FinishedSlot() {
     return;
   }
 
-  emit Finished();
+  Q_EMIT Finished();
 }
 
 }  // namespace qtsparkle
