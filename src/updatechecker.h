@@ -41,7 +41,7 @@ public:
 
   void SetNetworkAccessManager(QNetworkAccessManager* network);
   void SetVersion(const QString& version);
-  void Check(const QUrl& appcast_url);
+  void Check(const QUrl& appcast_url, const bool override_user_skip);
 
 Q_SIGNALS:
   void CheckStarted();

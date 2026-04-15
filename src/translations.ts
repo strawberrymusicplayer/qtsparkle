@@ -32,12 +32,12 @@
 <context>
     <name>qtsparkle::UpdateDialog</name>
     <message>
-        <location filename="updatedialog.cpp" line="91"/>
+        <location filename="updatedialog.cpp" line="93"/>
         <source>A new version of %1 is available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="updatedialog.cpp" line="93"/>
+        <location filename="updatedialog.cpp" line="95"/>
         <source>%1 %2 is now available - you have %3.  Would you like to download it now?</source>
         <translation type="unfinished"></translation>
     </message>

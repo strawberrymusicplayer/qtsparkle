@@ -179,7 +179,7 @@ void Updater::Private::CheckNow(const bool quiet) {
   connect(checker, SIGNAL(UpdateAvailable(AppCastPtr)), controller_, SLOT(UpdateAvailable(AppCastPtr)));
   connect(checker, SIGNAL(UpToDate()), controller_, SLOT(UpToDate()));
 
-  checker->Check(appcast_url_);
+  checker->Check(appcast_url_, !quiet);
 
   // The UiController will delete itself when the check is finished.
 

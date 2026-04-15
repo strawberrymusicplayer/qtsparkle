@@ -27,6 +27,7 @@
 #include "ui_updatedialog.h"
 
 #include <QDesktopServices>
+#include <QSettings>
 #include <QtDebug>
 
 namespace qtsparkle {
@@ -61,6 +62,7 @@ UpdateDialog::UpdateDialog(QWidget *parent)
   d->ui_->icon->hide();
 
   connect(d->ui_->install, SIGNAL(clicked()), SLOT(Install()));
+  connect(d->ui_->skip, SIGNAL(clicked()), SLOT(Skip()));
   connect(d->ui_->later, SIGNAL(clicked()), SLOT(close()));
 }
 
@@ -126,6 +128,16 @@ void UpdateDialog::Install() {
     return;
 
   QDesktopServices::openUrl(d->appcast_->download_url());
+  close();
+}
+
+void UpdateDialog::Skip() {
+  if (!d->appcast_)
+    return;
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("skipped_version", d->appcast_->version());
   close();
 }
 

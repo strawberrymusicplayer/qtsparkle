@@ -50,6 +50,7 @@ public Q_SLOTS:
 private Q_SLOTS:
   void ReleaseNotesReady();
   void Install();
+  void Skip();
 
 private:
   struct Private;
