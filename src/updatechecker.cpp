@@ -21,19 +21,19 @@
    THE SOFTWARE.
 */
 
+#include <QCoreApplication>
+#include <QString>
+#include <QUrl>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QSettings>
+
 #include "appcast.h"
 #include "common.h"
 #include "compareversions.h"
 #include "followredirects.h"
 #include "updatechecker.h"
-
-#include <QCoreApplication>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QNetworkRequest>
-#include <QSettings>
-#include <QUrl>
-#include <QtDebug>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -82,13 +82,15 @@ QNetworkRequest UpdateChecker::Private::MakeRequest(const QUrl &url) {
 
 void UpdateChecker::Check(const QUrl &appcast_url, const bool override_user_skip) {
 
-  if (d->busy_)
+  if (d->busy_) {
     return;
+  }
 
   Q_EMIT CheckStarted();
 
-  if (!d->network_)
+  if (!d->network_) {
     d->network_ = new QNetworkAccessManager(this);
+  }
 
   d->busy_ = true;
   d->override_user_skip_ = override_user_skip;
