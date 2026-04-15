@@ -21,9 +21,10 @@
    THE SOFTWARE.
 */
 
-#include "compareversions.h"
-
+#include <QString>
 #include <QStringList>
+
+#include "compareversions.h"
 
 namespace qtsparkle {
 
@@ -41,21 +42,27 @@ enum class CharType {
 };
 
 CharType ClassifyChar(const QChar &c) {
-  if (c == u'.')
+
+  if (c == u'.') {
     return CharType::Type_Period;
-  if (c.isDigit())
+  }
+  if (c.isDigit()) {
     return CharType::Type_Number;
+  }
   return CharType::Type_String;
+
 }
 
 // Split version string into individual components. A component is continuous
 // run of characters with the same classification. For example, "1.20rc3" would
 // be split into ["1",".","20","rc","3"].
 QStringList SplitVersionString(const QString &version) {
+
   QStringList list;
 
-  if (version.isEmpty())
+  if (version.isEmpty()) {
     return list;  // nothing to do here
+  }
 
   QString s;
   const int len = version.length();
@@ -86,11 +93,13 @@ QStringList SplitVersionString(const QString &version) {
   list << s;
 
   return list;
+
 }
 
 }  // anonymous namespace
 
 bool CompareVersions(const QString &left, const QString &right) {
+
   const QStringList parts_left = SplitVersionString(left);
   const QStringList parts_right = SplitVersionString(right);
 
@@ -135,8 +144,9 @@ bool CompareVersions(const QString &left, const QString &right) {
 
   // The versions are equal up to the point where they both still have
   // parts. Lets check to see if one is larger than the other.
-  if (parts_left.count() == parts_right.count())
+  if (parts_left.count() == parts_right.count()) {
     return 0;  // the two strings are identical
+  }
 
   // Lets get the next part of the larger version string
   // Note that 'n' already holds the index of the part we want.
@@ -162,6 +172,7 @@ bool CompareVersions(const QString &left, const QString &right) {
 
   // 1.5.1 > 1.5
   return longer_result;
+
 }
 
 }  // namespace qtsparkle

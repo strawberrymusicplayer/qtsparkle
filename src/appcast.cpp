@@ -21,11 +21,12 @@
    THE SOFTWARE.
 */
 
+#include <QList>
+#include <QString>
+#include <QXmlStreamReader>
+
 #include "appcast.h"
 #include "compareversions.h"
-
-#include <QXmlStreamReader>
-#include <QtDebug>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -50,12 +51,12 @@ struct AppCast::Private {
     while (!reader->atEnd()) {
       reader->readNext();
 
-      if (reader->tokenType() == QXmlStreamReader::EndElement && reader->name().toString() == "item"_L1)
+      if (reader->tokenType() == QXmlStreamReader::EndElement && reader->name().toString() == "item"_L1) {
         break;
+      }
 
       if (reader->tokenType() == QXmlStreamReader::StartElement) {
-        if (reader->name().toString() == "releaseNotesLink"_L1 &&
-            reader->namespaceUri().toString() == QLatin1String(Private::kNamespace)) {
+        if (reader->name().toString() == "releaseNotesLink"_L1 && reader->namespaceUri().toString() == QLatin1String(Private::kNamespace)) {
           ret.release_notes_url_ = reader->readElementText().trimmed();
         }
         else if (reader->name().toString() == "enclosure"_L1) {
@@ -83,12 +84,9 @@ struct AppCast::Private {
 const char *AppCast::Private::kNamespace = "http://www.andymatuschak.org/xml-namespaces/sparkle";
 
 
-AppCast::AppCast()
-    : d(new Private) {
-}
+AppCast::AppCast() : d(new Private) {}
 
-AppCast::~AppCast() {
-}
+AppCast::~AppCast() = default;
 
 QString AppCast::version() const { return d->latest_.version_; }
 QString AppCast::download_url() const { return d->latest_.download_url_; }

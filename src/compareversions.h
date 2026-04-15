@@ -27,9 +27,7 @@
 #include <QString>
 
 namespace qtsparkle {
-
 bool CompareVersions(const QString &left, const QString &right);
-
 }
 
 #endif  // QTSPAKRLE_COMPAREVERSIONS_H

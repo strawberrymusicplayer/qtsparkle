@@ -21,6 +21,10 @@
    THE SOFTWARE.
 */
 
+#include <QVariant>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+
 #include "followredirects.h"
 
 namespace qtsparkle {
@@ -39,8 +43,10 @@ struct FollowRedirects::Private {
 
 FollowRedirects::FollowRedirects(QNetworkReply *reply)
     : d(new Private) {
+
   d->reply_ = reply;
   QObject::connect(d->reply_, &QNetworkReply::finished, this, &FollowRedirects::FinishedSlot);
+
 }
 
 FollowRedirects::~FollowRedirects() {
@@ -52,11 +58,12 @@ QNetworkReply *FollowRedirects::reply() const {
 }
 
 void FollowRedirects::FinishedSlot() {
-  QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+
+  QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
   if (!reply || reply != d->reply_)
     return;
 
-  QVariant redirect_target = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+  const QVariant redirect_target = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
   if (redirect_target.isValid()) {
     reply->deleteLater();
 
@@ -86,6 +93,7 @@ void FollowRedirects::FinishedSlot() {
   }
 
   Q_EMIT Finished();
+
 }
 
 }  // namespace qtsparkle

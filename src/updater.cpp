@@ -21,21 +21,21 @@
    THE SOFTWARE.
 */
 
+#include <QCoreApplication>
+#include <QString>
+#include <QUrl>
+#include <QIcon>
+#include <QPointer>
+#include <QTimer>
+#include <QLocale>
+#include <QTranslator>
+#include <QMessageBox>
+#include <QPushButton>
+
 #include "common.h"
 #include "uicontroller.h"
 #include "updatechecker.h"
 #include "updater.h"
-
-#include <QCoreApplication>
-#include <QIcon>
-#include <QMessageBox>
-#include <QPointer>
-#include <QPushButton>
-#include <QTimer>
-#include <QTranslator>
-#include <QUrl>
-#include <QtDebug>
-#include <QLocale>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -69,6 +69,7 @@ bool LoadTranslations(const QString &language) {
 
   delete t;
   return false;
+
 }
 
 struct Updater::Private {
@@ -79,8 +80,7 @@ struct Updater::Private {
         appcast_url_(appcast_url),
         update_check_timer_(nullptr),
         update_check_interval_msec_(86400000)  // one day
-  {
-  }
+  {}
 
   void CheckNow(const bool quiet);
 
@@ -106,6 +106,7 @@ struct Updater::Private {
 Updater::Updater(const QUrl &appcast_url, QWidget *parent)
     : QObject(parent),
       d(new Private(appcast_url, parent, this)) {
+
   // Load translations if they haven't been loaded already.
   LoadTranslations(QLocale::system().name());
 
@@ -122,10 +123,10 @@ Updater::Updater(const QUrl &appcast_url, QWidget *parent)
   d->update_check_timer_ = new QTimer(this);
   d->update_check_timer_->setSingleShot(true);
   QObject::connect(d->update_check_timer_, &QTimer::timeout, this, &Updater::AutoCheck);
+
 }
 
-Updater::~Updater() {
-}
+Updater::~Updater() = default;
 
 void Updater::SetIcon(const QIcon &icon) {
   d->icon_ = icon;
@@ -139,20 +140,25 @@ void Updater::SetVersion(const QString &version) {
   d->version_ = version;
 }
 
-void Updater::SetUpdateInterval(int msec) {
-  if (msec < 3600000)
+void Updater::SetUpdateInterval(const int msec) {
+
+  if (msec < 3600000) {
     return;
+  }
 
   d->update_check_interval_msec_ = msec;
+
 }
 
 bool Updater::event(QEvent *e) {
+
   if (e->type() == d->auto_check_event_) {
     d->CheckNow(true);
     return true;
   }
 
   return QObject::event(e);
+
 }
 
 void Updater::CheckNow() {
@@ -164,6 +170,7 @@ void Updater::AutoCheck() {
 }
 
 void Updater::Private::CheckNow(const bool quiet) {
+
   delete controller_;
   controller_ = new UiController(quiet, updater_, parent_widget_);
   controller_->SetNetworkAccessManager(network_);
@@ -184,6 +191,7 @@ void Updater::Private::CheckNow(const bool quiet) {
   // The UiController will delete itself when the check is finished.
 
   update_check_timer_->start(update_check_interval_msec_);
+
 }
 
 }  // namespace qtsparkle

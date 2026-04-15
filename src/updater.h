@@ -67,7 +67,7 @@ class QTSPARKLE_EXPORT Updater : public QObject {
   // appcast_url is the URL that this class should use when checking for
   // updates.  If parent is not NULL then any dialogs created by this class
   // are parented to that widget.
-  Updater(const QUrl &appcast_url, QWidget *parent);
+  explicit Updater(const QUrl &appcast_url, QWidget *parent);
   ~Updater();
 
   // Sets a network access manager to use when making network requests.  If
@@ -90,7 +90,7 @@ class QTSPARKLE_EXPORT Updater : public QObject {
 
   // Sets the update check interval in msec. Default value is one day (86400000).
   // Minimum value is one hour (3600000)
-  void SetUpdateInterval(int msec);
+  void SetUpdateInterval(const int msec);
 
  public Q_SLOTS:
   // Checks for updates now.  You probably want to call this from a menu item

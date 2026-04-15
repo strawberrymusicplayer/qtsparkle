@@ -21,16 +21,16 @@
    THE SOFTWARE.
 */
 
+#include <QCoreApplication>
+#include <QString>
+#include <QPointer>
+#include <QIcon>
+#include <QMessageBox>
+#include <QProgressDialog>
+
 #include "appcast.h"
 #include "uicontroller.h"
 #include "updatedialog.h"
-
-#include <QCoreApplication>
-#include <QIcon>
-#include <QMessageBox>
-#include <QPointer>
-#include <QProgressDialog>
-#include <QtDebug>
 
 namespace qtsparkle {
 
@@ -49,9 +49,11 @@ struct UiController::Private {
 UiController::UiController(const bool quiet, QObject *parent, QWidget *parent_widget)
     : QObject(parent),
       d(new Private) {
+
   d->quiet_ = quiet;
   d->parent_widget_ = parent_widget;
   d->progress_dialog_ = nullptr;
+
 }
 
 UiController::~UiController() {
@@ -72,7 +74,8 @@ void UiController::SetVersion(const QString &version) {
 }
 
 void UiController::CheckStarted() {
-  if (!d->quiet_) {
+
+  if (!d->quiet_ && !d->progress_dialog_) {
     d->progress_dialog_ = new QProgressDialog(d->parent_widget_);
     d->progress_dialog_->setAutoClose(false);
     d->progress_dialog_->setAutoReset(false);
@@ -82,9 +85,11 @@ void UiController::CheckStarted() {
     d->progress_dialog_->setLabelText(tr("Checking for updates to %1, please wait...").arg(qApp->applicationName()));
     d->progress_dialog_->show();
   }
+
 }
 
 void UiController::UpdateAvailable(AppCastPtr appcast) {
+
   if (d->progress_dialog_) {
     d->progress_dialog_->hide();
   }
@@ -97,9 +102,11 @@ void UiController::UpdateAvailable(AppCastPtr appcast) {
   d->dialog_->ShowUpdate(appcast);
 
   QObject::connect(d->dialog_, &UpdateDialog::destroyed, this, &UiController::deleteLater);
+
 }
 
 void UiController::UpToDate() {
+
   if (d->progress_dialog_) {
     d->progress_dialog_->hide();
   }
@@ -109,9 +116,11 @@ void UiController::UpToDate() {
   }
 
   deleteLater();
+
 }
 
 void UiController::CheckFailed(const QString &reason) {
+
   qWarning() << "Update check failed:" << reason;
 
   if (d->progress_dialog_) {
@@ -123,6 +132,7 @@ void UiController::CheckFailed(const QString &reason) {
   }
 
   deleteLater();
+
 }
 
 }  // namespace qtsparkle

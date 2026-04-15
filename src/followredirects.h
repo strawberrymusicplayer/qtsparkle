@@ -24,9 +24,10 @@
 #ifndef QTSPAKRLE_FOLLOWREDIRECTS_H
 #define QTSPAKRLE_FOLLOWREDIRECTS_H
 
-#include <QNetworkReply>
 #include <QObject>
 #include <QScopedPointer>
+
+class QNetworkReply;
 
 namespace qtsparkle {
 
@@ -34,7 +35,7 @@ class FollowRedirects : public QObject {
   Q_OBJECT
 
  public:
-  FollowRedirects(QNetworkReply *reply);
+  explicit FollowRedirects(QNetworkReply *reply);
   ~FollowRedirects();
 
   QNetworkReply *reply() const;

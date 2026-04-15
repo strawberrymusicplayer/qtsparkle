@@ -72,14 +72,16 @@ void UpdateChecker::SetVersion(const QString &version) {
 }
 
 QNetworkRequest UpdateChecker::Private::MakeRequest(const QUrl &url) {
+
   QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::CacheLoadControlAttribute,
-                   QNetworkRequest::AlwaysNetwork);
+  req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
 
   return req;
+
 }
 
 void UpdateChecker::Check(const QUrl &appcast_url, const bool override_user_skip) {
+
   if (d->busy_)
     return;
 
@@ -94,12 +96,15 @@ void UpdateChecker::Check(const QUrl &appcast_url, const bool override_user_skip
   FollowRedirects *reply = new FollowRedirects(d->network_->get(d->MakeRequest(appcast_url)));
   QObject::connect(reply, &FollowRedirects::Finished, this, &UpdateChecker::Finished);
   QObject::connect(reply, &FollowRedirects::RedirectLimitReached, this, &UpdateChecker::RedirectLimitReached);
+
 }
 
 void UpdateChecker::Finished() {
-  FollowRedirects *reply = qobject_cast<FollowRedirects *>(sender());
-  if (!reply)
+
+  FollowRedirects *reply = qobject_cast<FollowRedirects*>(sender());
+  if (!reply) {
     return;
+  }
   reply->deleteLater();
 
   d->busy_ = false;
@@ -128,6 +133,7 @@ void UpdateChecker::Finished() {
   }
 
   Q_EMIT UpdateAvailable(appcast);
+
 }
 
 void UpdateChecker::RedirectLimitReached() {

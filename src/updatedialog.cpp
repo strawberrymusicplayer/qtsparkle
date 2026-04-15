@@ -21,22 +21,25 @@
    THE SOFTWARE.
 */
 
+#include <QString>
+#include <QScopedPointer>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QSettings>
+#include <QDesktopServices>
+
 #include "appcast.h"
 #include "common.h"
 #include "followredirects.h"
 #include "updatedialog.h"
 #include "ui_updatedialog.h"
 
-#include <QDesktopServices>
-#include <QSettings>
-#include <QtDebug>
-
 using namespace Qt::Literals::StringLiterals;
 
 namespace qtsparkle {
 
 struct UpdateDialog::Private {
-  Private() : network_(nullptr) {}
+  explicit Private() : network_(nullptr) {}
 
   QScopedPointer<Ui_UpdateDialog> ui_;
 
@@ -53,6 +56,7 @@ const int UpdateDialog::Private::kIconSize = 64;
 UpdateDialog::UpdateDialog(QWidget *parent)
     : QDialog(parent),
       d(new Private) {
+
   d->ui_.reset(new Ui_UpdateDialog);
   d->ui_->setupUi(this);
 
@@ -62,16 +66,17 @@ UpdateDialog::UpdateDialog(QWidget *parent)
   QObject::connect(d->ui_->install, &QPushButton::clicked, this, &UpdateDialog::Install);
   QObject::connect(d->ui_->skip, &QPushButton::clicked, this, &UpdateDialog::Skip);
   QObject::connect(d->ui_->later, &QPushButton::clicked, this, &UpdateDialog::close);
+
 }
 
-UpdateDialog::~UpdateDialog() {
-}
+UpdateDialog::~UpdateDialog() = default;
 
 void UpdateDialog::SetNetworkAccessManager(QNetworkAccessManager *network) {
   d->network_ = network;
 }
 
 void UpdateDialog::SetIcon(const QIcon &icon) {
+
   if (icon.isNull()) {
     d->ui_->icon->hide();
   }
@@ -79,6 +84,7 @@ void UpdateDialog::SetIcon(const QIcon &icon) {
     d->ui_->icon->setPixmap(icon.pixmap(Private::kIconSize));
     d->ui_->icon->show();
   }
+
 }
 
 void UpdateDialog::SetVersion(const QString &version) {
@@ -86,6 +92,7 @@ void UpdateDialog::SetVersion(const QString &version) {
 }
 
 void UpdateDialog::ShowUpdate(AppCastPtr appcast) {
+
   d->appcast_ = appcast;
 
   d->ui_->title->setText("<h3>"_L1 + tr("A new version of %1 is available").arg(qApp->applicationName()) + "</h3>"_L1);
@@ -103,12 +110,16 @@ void UpdateDialog::ShowUpdate(AppCastPtr appcast) {
     FollowRedirects *reply = new FollowRedirects(d->network_->get(QNetworkRequest(QUrl(appcast->release_notes_url()))));
     QObject::connect(reply, &FollowRedirects::Finished, this, &UpdateDialog::ReleaseNotesReady);
   }
+
 }
 
 void UpdateDialog::ReleaseNotesReady() {
+
   FollowRedirects *reply = qobject_cast<FollowRedirects *>(sender());
-  if (!reply)
+  if (!reply) {
     return;
+  }
+
   reply->deleteLater();
 
   if (reply->reply()->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/html"_L1)) {
@@ -117,24 +128,31 @@ void UpdateDialog::ReleaseNotesReady() {
   else {
     d->ui_->release_notes->setPlainText(QString::fromUtf8(reply->reply()->readAll()));
   }
+
 }
 
 void UpdateDialog::Install() {
-  if (!d->appcast_)
+
+  if (!d->appcast_) {
     return;
+  }
 
   QDesktopServices::openUrl(QUrl(d->appcast_->download_url()));
   close();
+
 }
 
 void UpdateDialog::Skip() {
-  if (!d->appcast_)
+
+  if (!d->appcast_) {
     return;
+  }
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("skipped_version", d->appcast_->version());
   close();
+
 }
 
 }  // namespace qtsparkle

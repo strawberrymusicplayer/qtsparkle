@@ -27,9 +27,11 @@
 #include "appcast.h"
 
 #include <QObject>
+#include <QScopedPointer>
 
-class QNetworkAccessManager;
+class QString;
 class QUrl;
+class QNetworkAccessManager;
 
 namespace qtsparkle {
 
@@ -37,7 +39,7 @@ class UpdateChecker : public QObject {
   Q_OBJECT
 
  public:
-  UpdateChecker(QObject *parent);
+  explicit UpdateChecker(QObject *parent);
   ~UpdateChecker();
 
   void SetNetworkAccessManager(QNetworkAccessManager *network);

@@ -21,12 +21,13 @@
    THE SOFTWARE.
 */
 
-#ifndef QTSPAKRLE_APPCAST_H
-#define QTSPAKRLE_APPCAST_H
+#ifndef QTSPARKLE_APPCAST_H
+#define QTSPARKLE_APPCAST_H
+
+#include <QString>
+#include <QScopedPointer>
 
 #include "appcast_fwd.h"
-
-#include <QScopedPointer>
 
 class QIODevice;
 
@@ -55,4 +56,4 @@ class AppCast {
 
 }  // namespace qtsparkle
 
-#endif  // QTSPAKRLE_APPCAST_H
+#endif  // QTSPARKLE_APPCAST_H

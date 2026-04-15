@@ -27,10 +27,12 @@
 #include "appcast.h"
 
 #include <QDialog>
+#include <QSharedPointer>
 
-class Ui_UpdateDialog;
-
+class QString;
+class QIcon;
 class QNetworkAccessManager;
+class Ui_UpdateDialog;
 
 namespace qtsparkle {
 
@@ -38,7 +40,7 @@ class UpdateDialog : public QDialog {
   Q_OBJECT
 
  public:
-  UpdateDialog(QWidget *parent = 0);
+  UpdateDialog(QWidget *parent = nullptr);
   ~UpdateDialog();
 
   void SetNetworkAccessManager(QNetworkAccessManager *network);

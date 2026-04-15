@@ -4,27 +4,27 @@
 <context>
     <name>qtsparkle::UiController</name>
     <message>
-        <location filename="uicontroller.cpp" line="80"/>
+        <location filename="uicontroller.cpp" line="84"/>
         <source>Checking for updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uicontroller.cpp" line="81"/>
+        <location filename="uicontroller.cpp" line="85"/>
         <source>Checking for updates to %1, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uicontroller.cpp" line="107"/>
+        <location filename="uicontroller.cpp" line="115"/>
         <source>No updates available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uicontroller.cpp" line="107"/>
+        <location filename="uicontroller.cpp" line="115"/>
         <source>You already have the latest version of %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="uicontroller.cpp" line="121"/>
+        <location filename="uicontroller.cpp" line="131"/>
         <source>Update check failed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -32,12 +32,12 @@
 <context>
     <name>qtsparkle::UpdateDialog</name>
     <message>
-        <location filename="updatedialog.cpp" line="92"/>
+        <location filename="updatedialog.cpp" line="98"/>
         <source>A new version of %1 is available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="updatedialog.cpp" line="94"/>
+        <location filename="updatedialog.cpp" line="99"/>
         <source>%1 %2 is now available - you have %3.  Would you like to download it now?</source>
         <translation type="unfinished"></translation>
     </message>
