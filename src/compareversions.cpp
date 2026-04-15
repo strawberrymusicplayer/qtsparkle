@@ -158,10 +158,9 @@ bool CompareVersions(const QString &left, const QString &right) {
     // 1.5 > 1.5b3
     return shorter_result;
   }
-  else {
-    // 1.5.1 > 1.5
-    return longer_result;
-  }
+
+  // 1.5.1 > 1.5
+  return longer_result;
 }
 
 }  // namespace qtsparkle
