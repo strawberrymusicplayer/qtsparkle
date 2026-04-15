@@ -56,8 +56,7 @@ void FollowRedirects::FinishedSlot() {
   if (!reply || reply != d->reply_)
     return;
 
-  QVariant redirect_target = reply->attribute(
-    QNetworkRequest::RedirectionTargetAttribute);
+  QVariant redirect_target = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
   if (redirect_target.isValid()) {
     reply->deleteLater();
 
@@ -79,8 +78,7 @@ void FollowRedirects::FinishedSlot() {
     QNetworkRequest req(target);
 
     // Copy the cache control attribute from the last request
-    req.setAttribute(QNetworkRequest::CacheLoadControlAttribute,
-                     d->reply_->request().attribute(QNetworkRequest::CacheLoadControlAttribute));
+    req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, d->reply_->request().attribute(QNetworkRequest::CacheLoadControlAttribute));
 
     d->reply_ = d->reply_->manager()->get(req);
     connect(d->reply_, SIGNAL(finished()), SLOT(FinishedSlot()));

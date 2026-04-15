@@ -34,9 +34,7 @@
 namespace qtsparkle {
 
 struct UpdateDialog::Private {
-  Private()
-      : network_(nullptr) {
-  }
+  Private() : network_(nullptr) {}
 
   QScopedPointer<Ui_UpdateDialog> ui_;
 
@@ -56,8 +54,7 @@ UpdateDialog::UpdateDialog(QWidget *parent)
   d->ui_.reset(new Ui_UpdateDialog);
   d->ui_->setupUi(this);
 
-  d->ui_->release_notes_label->setText(
-    "<b>" + d->ui_->release_notes_label->text() + "</b>");
+  d->ui_->release_notes_label->setText("<b>" + d->ui_->release_notes_label->text() + "</b>");
   d->ui_->icon->hide();
 
   connect(d->ui_->install, SIGNAL(clicked()), SLOT(Install()));
@@ -89,11 +86,8 @@ void UpdateDialog::SetVersion(const QString &version) {
 void UpdateDialog::ShowUpdate(AppCastPtr appcast) {
   d->appcast_ = appcast;
 
-  d->ui_->title->setText("<h3>" +
-                         tr("A new version of %1 is available").arg(qApp->applicationName()) + "</h3>");
-  d->ui_->summary->setText(
-    tr("%1 %2 is now available - you have %3.  Would you like to download it now?")
-      .arg(qApp->applicationName(), appcast->version(), d->version_));
+  d->ui_->title->setText("<h3>" + tr("A new version of %1 is available").arg(qApp->applicationName()) + "</h3>");
+  d->ui_->summary->setText(tr("%1 %2 is now available - you have %3.  Would you like to download it now?").arg(qApp->applicationName(), appcast->version(), d->version_));
 
   show();
 
@@ -104,9 +98,8 @@ void UpdateDialog::ShowUpdate(AppCastPtr appcast) {
     if (!d->network_)
       d->network_ = new QNetworkAccessManager(this);
 
-    FollowRedirects *reply = new FollowRedirects(
-      d->network_->get(QNetworkRequest(appcast->release_notes_url())));
     connect(reply, SIGNAL(Finished()), SLOT(ReleaseNotesReady()));
+    FollowRedirects *reply = new FollowRedirects(d->network_->get(QNetworkRequest(appcast->release_notes_url())));
   }
 }
 

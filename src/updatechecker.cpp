@@ -89,10 +89,9 @@ void UpdateChecker::Check(const QUrl &appcast_url, const bool override_user_skip
   d->busy_ = true;
   d->override_user_skip_ = override_user_skip;
 
-  FollowRedirects *reply = new FollowRedirects(
-    d->network_->get(d->MakeRequest(appcast_url)));
   connect(reply, SIGNAL(Finished()), SLOT(Finished()));
   connect(reply, SIGNAL(RedirectLimitReached()), SLOT(RedirectLimitReached()));
+  FollowRedirects *reply = new FollowRedirects(d->network_->get(d->MakeRequest(appcast_url)));
 }
 
 void UpdateChecker::Finished() {
