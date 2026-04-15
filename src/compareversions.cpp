@@ -33,7 +33,7 @@ namespace {
 
 // String characters classification. Valid components of version numbers
 // are numbers, period or string fragments ("beta" etc.).
-enum CharType {
+enum class CharType {
   Type_Number,
   Type_Period,
   Type_String
@@ -41,11 +41,10 @@ enum CharType {
 
 CharType ClassifyChar(const QChar &c) {
   if (c == '.')
-    return Type_Period;
-  else if (c.isDigit())
-    return Type_Number;
-  else
-    return Type_String;
+    return CharType::Type_Period;
+  if (c.isDigit())
+    return CharType::Type_Number;
+  return CharType::Type_String;
 }
 
 // Split version string into individual components. A component is continuous
@@ -67,7 +66,7 @@ QStringList SplitVersionString(const QString &version) {
     const QChar c = version.at(i);
     const CharType new_type = ClassifyChar(c);
 
-    if (prev_type != new_type || prev_type == Type_Period) {
+    if (prev_type != new_type || prev_type == CharType::Type_Period) {
       // We reached a new segment. Period gets special treatment,
       // because "." always delimiters components in version strings
       // (and so ".." means there's empty component value).
@@ -104,11 +103,11 @@ bool CompareVersions(const QString &left, const QString &right) {
     const CharType type_b = ClassifyChar(b[0]);
 
     if (type_a == type_b) {
-      if (type_a == Type_String) {
+      if (type_a == CharType::Type_String) {
         if (a != b)
           return a < b;
       }
-      else if (type_a == Type_Number) {
+      else if (type_a == CharType::Type_Number) {
         const int int_a = a.toInt();
         const int int_b = b.toInt();
         if (int_a != int_b)
@@ -117,18 +116,18 @@ bool CompareVersions(const QString &left, const QString &right) {
     }
     else {
       // components of different types
-      if (type_a != Type_String && type_b == Type_String) {
+      if (type_a != CharType::Type_String && type_b == CharType::Type_String) {
         // 1.2.0 > 1.2rc1
         return false;
       }
-      else if (type_a == Type_String && type_b != Type_String) {
+      else if (type_a == CharType::Type_String && type_b != CharType::Type_String) {
         // 1.2rc1 < 1.2.0
         return true;
       }
       else {
         // One is a number and the other is a period. The period
         // is invalid.
-        return (type_a == Type_Number) ? false : true;
+        return (type_a == CharType::Type_Number) ? false : true;
       }
     }
   }
@@ -155,7 +154,7 @@ bool CompareVersions(const QString &left, const QString &right) {
     longer_result = true;
   }
 
-  if (missing_part_type == Type_String) {
+  if (missing_part_type == CharType::Type_String) {
     // 1.5 > 1.5b3
     return shorter_result;
   }
