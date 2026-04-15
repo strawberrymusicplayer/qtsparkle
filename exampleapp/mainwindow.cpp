@@ -22,13 +22,7 @@
 
 #include "mainwindow.h"
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-#  include <qtsparkle/Updater>
-#elif QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#  include <qtsparkle-qt5/Updater>
-#else
-#  include <qtsparkle-qt6/Updater>
-#endif
+#include <qtsparkle-qt6/Updater>
 
 #include <QPushButton>
 #include <QUrl>
