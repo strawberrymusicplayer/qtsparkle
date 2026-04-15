@@ -50,7 +50,7 @@ UiController::UiController(const bool quiet, QObject *parent, QWidget *parent_wi
       d(new Private) {
   d->quiet_ = quiet;
   d->parent_widget_ = parent_widget;
-  d->progress_dialog_ = NULL;
+  d->progress_dialog_ = nullptr;
 }
 
 UiController::~UiController() {
@@ -76,7 +76,7 @@ void UiController::CheckStarted() {
     d->progress_dialog_->setAutoClose(false);
     d->progress_dialog_->setAutoReset(false);
     d->progress_dialog_->setRange(0, 0);
-    d->progress_dialog_->setCancelButton(NULL);
+    d->progress_dialog_->setCancelButton(nullptr);
     d->progress_dialog_->setWindowTitle(tr("Checking for updates"));
     d->progress_dialog_->setLabelText(tr("Checking for updates to %1, please wait...").arg(qApp->applicationName()));
     d->progress_dialog_->show();

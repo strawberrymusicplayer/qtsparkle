@@ -73,9 +73,9 @@ struct Updater::Private {
   Private(const QUrl &appcast_url, QWidget *parent_widget, Updater *updater)
       : parent_widget_(parent_widget),
         updater_(updater),
-        network_(NULL),
+        network_(nullptr),
         appcast_url_(appcast_url),
-        update_check_timer_(NULL),
+        update_check_timer_(nullptr),
         update_check_interval_msec_(86400000)  // one day
   {
   }

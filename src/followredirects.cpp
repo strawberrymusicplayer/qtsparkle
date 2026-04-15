@@ -26,7 +26,7 @@ namespace qtsparkle {
 
 struct FollowRedirects::Private {
   Private()
-      : reply_(NULL),
+      : reply_(nullptr),
         redirect_count_(0) {
   }
 
@@ -61,7 +61,7 @@ void FollowRedirects::FinishedSlot() {
     reply->deleteLater();
 
     if (d->redirect_count_ >= Private::kMaxRedirects) {
-      d->reply_ = NULL;
+      d->reply_ = nullptr;
       emit RedirectLimitReached();
       return;
     }

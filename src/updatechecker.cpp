@@ -38,7 +38,7 @@ namespace qtsparkle {
 
 struct UpdateChecker::Private {
   Private()
-      : network_(NULL),
+      : network_(nullptr),
         busy_(false),
         override_user_skip_(false) {
   }

@@ -34,7 +34,7 @@ namespace qtsparkle {
 
 struct UpdateDialog::Private {
   Private()
-      : network_(NULL) {
+      : network_(nullptr) {
   }
 
   QScopedPointer<Ui_UpdateDialog> ui_;
