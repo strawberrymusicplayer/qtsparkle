@@ -21,8 +21,8 @@
    THE SOFTWARE.
 */
 
-#ifndef QTSPAKRLE_UPDATECHECKER_H
-#define QTSPAKRLE_UPDATECHECKER_H
+#ifndef QTSPARKLE_UPDATECHECKER_H
+#define QTSPARKLE_UPDATECHECKER_H
 
 #include "appcast.h"
 
@@ -63,4 +63,4 @@ class UpdateChecker : public QObject {
 
 }  // namespace qtsparkle
 
-#endif  // QTSPAKRLE_UPDATECHECKER_H
+#endif  // QTSPARKLE_UPDATECHECKER_H

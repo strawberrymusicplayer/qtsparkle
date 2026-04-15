@@ -21,8 +21,8 @@
    THE SOFTWARE.
 */
 
-#ifndef QTSPAKRLE_UICONTROLLER_H
-#define QTSPAKRLE_UICONTROLLER_H
+#ifndef QTSPARKLE_UICONTROLLER_H
+#define QTSPARKLE_UICONTROLLER_H
 
 #include "appcast.h"
 
@@ -58,4 +58,4 @@ class UiController : public QObject {
 
 }  // namespace qtsparkle
 
-#endif  // QTSPAKRLE_UICONTROLLER_H
+#endif  // QTSPARKLE_UICONTROLLER_H

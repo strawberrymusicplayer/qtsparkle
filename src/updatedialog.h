@@ -21,8 +21,8 @@
    THE SOFTWARE.
 */
 
-#ifndef QTSPAKRLE_UPDATEDIALOG_H
-#define QTSPAKRLE_UPDATEDIALOG_H
+#ifndef QTSPARKLE_UPDATEDIALOG_H
+#define QTSPARKLE_UPDATEDIALOG_H
 
 #include "appcast.h"
 
@@ -62,4 +62,4 @@ class UpdateDialog : public QDialog {
 
 }  // namespace qtsparkle
 
-#endif  // QTSPAKRLE_UPDATEDIALOG_H
+#endif  // QTSPARKLE_UPDATEDIALOG_H

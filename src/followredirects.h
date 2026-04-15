@@ -21,8 +21,8 @@
    THE SOFTWARE.
 */
 
-#ifndef QTSPAKRLE_FOLLOWREDIRECTS_H
-#define QTSPAKRLE_FOLLOWREDIRECTS_H
+#ifndef QTSPARKLE_FOLLOWREDIRECTS_H
+#define QTSPARKLE_FOLLOWREDIRECTS_H
 
 #include <QObject>
 #include <QScopedPointer>
@@ -55,4 +55,4 @@ class FollowRedirects : public QObject {
 
 }  // namespace qtsparkle
 
-#endif  // QTSPAKRLE_FOLLOWREDIRECTS_H
+#endif  // QTSPARKLE_FOLLOWREDIRECTS_H

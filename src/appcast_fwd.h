@@ -21,8 +21,8 @@
    THE SOFTWARE.
 */
 
-#ifndef QTSPAKRLE_APPCAST_FWD_H
-#define QTSPAKRLE_APPCAST_FWD_H
+#ifndef QTSPARKLE_APPCAST_FWD_H
+#define QTSPARKLE_APPCAST_FWD_H
 
 #include <QSharedPointer>
 
@@ -33,4 +33,4 @@ using AppCastPtr = QSharedPointer<qtsparkle::AppCast>;
 
 }  // namespace qtsparkle
 
-#endif  // QTSPAKRLE_APPCAST_FWD_H
+#endif  // QTSPARKLE_APPCAST_FWD_H

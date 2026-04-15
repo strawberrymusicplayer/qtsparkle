@@ -21,8 +21,8 @@
    THE SOFTWARE.
 */
 
-#ifndef QTSPAKRLE_COMPAREVERSIONS_H
-#define QTSPAKRLE_COMPAREVERSIONS_H
+#ifndef QTSPARKLE_COMPAREVERSIONS_H
+#define QTSPARKLE_COMPAREVERSIONS_H
 
 #include <QString>
 
@@ -30,4 +30,4 @@ namespace qtsparkle {
 bool CompareVersions(const QString &left, const QString &right);
 }
 
-#endif  // QTSPAKRLE_COMPAREVERSIONS_H
+#endif  // QTSPARKLE_COMPAREVERSIONS_H
