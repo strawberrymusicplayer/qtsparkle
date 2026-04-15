@@ -31,7 +31,7 @@ class Updater;
 
 class MainWindow : public QWidget {
  public:
-  MainWindow();
+  MainWindow(QWidget *parent = nullptr);
 
  private:
   qtsparkle::Updater *updater_;

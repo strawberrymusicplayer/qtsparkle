@@ -33,8 +33,9 @@
 #include <QPushButton>
 #include <QUrl>
 
-MainWindow::MainWindow()
-    : updater_(new qtsparkle::Updater(QUrl("http://dev.latest.clementine-player.appspot.com/sparkle"), this)) {
+MainWindow::MainWindow(QWidget *parent)
+    : QWidget(parent),
+      updater_(new qtsparkle::Updater(QUrl("http://dev.latest.clementine-player.appspot.com/sparkle"), this)) {
   resize(600, 400);
 
   QPushButton *c = new QPushButton("Check for updates", this);
