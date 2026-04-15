@@ -40,7 +40,7 @@ struct FollowRedirects::Private {
 FollowRedirects::FollowRedirects(QNetworkReply *reply)
     : d(new Private) {
   d->reply_ = reply;
-  connect(reply, SIGNAL(finished()), SLOT(FinishedSlot()));
+  QObject::connect(d->reply_, &QNetworkReply::finished, this, &FollowRedirects::FinishedSlot);
 }
 
 FollowRedirects::~FollowRedirects() {
@@ -81,7 +81,7 @@ void FollowRedirects::FinishedSlot() {
     req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, d->reply_->request().attribute(QNetworkRequest::CacheLoadControlAttribute));
 
     d->reply_ = d->reply_->manager()->get(req);
-    connect(d->reply_, SIGNAL(finished()), SLOT(FinishedSlot()));
+    QObject::connect(d->reply_, &QNetworkReply::finished, this, &FollowRedirects::FinishedSlot);
     return;
   }
 

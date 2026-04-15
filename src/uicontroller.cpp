@@ -96,7 +96,7 @@ void UiController::UpdateAvailable(AppCastPtr appcast) {
   d->dialog_->SetVersion(d->version_);
   d->dialog_->ShowUpdate(appcast);
 
-  connect(d->dialog_, SIGNAL(destroyed()), SLOT(deleteLater()));
+  QObject::connect(d->dialog_, &UpdateDialog::destroyed, this, &UiController::deleteLater);
 }
 
 void UiController::UpToDate() {

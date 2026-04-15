@@ -120,7 +120,7 @@ Updater::Updater(const QUrl &appcast_url, QWidget *parent)
 
   d->update_check_timer_ = new QTimer(this);
   d->update_check_timer_->setSingleShot(true);
-  connect(d->update_check_timer_, SIGNAL(timeout()), SLOT(AutoCheck()));
+  QObject::connect(d->update_check_timer_, &QTimer::timeout, this, &Updater::AutoCheck);
 }
 
 Updater::~Updater() {
@@ -173,10 +173,10 @@ void Updater::Private::CheckNow(const bool quiet) {
   checker->SetNetworkAccessManager(network_);
   checker->SetVersion(version_);
 
-  connect(checker, SIGNAL(CheckStarted()), controller_, SLOT(CheckStarted()));
-  connect(checker, SIGNAL(CheckFailed(QString)), controller_, SLOT(CheckFailed(QString)));
-  connect(checker, SIGNAL(UpdateAvailable(AppCastPtr)), controller_, SLOT(UpdateAvailable(AppCastPtr)));
-  connect(checker, SIGNAL(UpToDate()), controller_, SLOT(UpToDate()));
+  QObject::connect(checker, &UpdateChecker::CheckStarted, controller_, &UiController::CheckStarted);
+  QObject::connect(checker, &UpdateChecker::CheckFailed, controller_, &UiController::CheckFailed);
+  QObject::connect(checker, &UpdateChecker::UpdateAvailable, controller_, &UiController::UpdateAvailable);
+  QObject::connect(checker, &UpdateChecker::UpToDate, controller_, &UiController::UpToDate);
 
   checker->Check(appcast_url_, !quiet);
 

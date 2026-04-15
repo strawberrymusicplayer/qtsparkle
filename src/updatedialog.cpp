@@ -57,9 +57,9 @@ UpdateDialog::UpdateDialog(QWidget *parent)
   d->ui_->release_notes_label->setText("<b>" + d->ui_->release_notes_label->text() + "</b>");
   d->ui_->icon->hide();
 
-  connect(d->ui_->install, SIGNAL(clicked()), SLOT(Install()));
-  connect(d->ui_->skip, SIGNAL(clicked()), SLOT(Skip()));
-  connect(d->ui_->later, SIGNAL(clicked()), SLOT(close()));
+  QObject::connect(d->ui_->install, &QPushButton::clicked, this, &UpdateDialog::Install);
+  QObject::connect(d->ui_->skip, &QPushButton::clicked, this, &UpdateDialog::Skip);
+  QObject::connect(d->ui_->later, &QPushButton::clicked, this, &UpdateDialog::close);
 }
 
 UpdateDialog::~UpdateDialog() {
@@ -98,8 +98,8 @@ void UpdateDialog::ShowUpdate(AppCastPtr appcast) {
     if (!d->network_)
       d->network_ = new QNetworkAccessManager(this);
 
-    connect(reply, SIGNAL(Finished()), SLOT(ReleaseNotesReady()));
     FollowRedirects *reply = new FollowRedirects(d->network_->get(QNetworkRequest(appcast->release_notes_url())));
+    QObject::connect(reply, &FollowRedirects::Finished, this, &UpdateDialog::ReleaseNotesReady);
   }
 }
 
