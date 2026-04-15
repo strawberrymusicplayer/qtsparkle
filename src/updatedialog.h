@@ -45,7 +45,7 @@ class UpdateDialog : public QDialog {
   void SetVersion(const QString &version);
 
  public Q_SLOTS:
-  void ShowUpdate(AppCastPtr appcast);
+  void ShowUpdate(QSharedPointer<qtsparkle::AppCast> appcast);
 
  private Q_SLOTS:
   void ReleaseNotesReady();

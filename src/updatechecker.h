@@ -45,7 +45,7 @@ class UpdateChecker : public QObject {
 
  Q_SIGNALS:
   void CheckStarted();
-  void UpdateAvailable(AppCastPtr appcast);
+  void UpdateAvailable(QSharedPointer<qtsparkle::AppCast> appcast);
   void UpToDate();
   void CheckFailed(const QString &reason);
 
