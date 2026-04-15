@@ -39,7 +39,7 @@ struct AppCast::Private {
       return CompareVersions(version_, other.version_);
     }
   };
-  typedef QList<Item> ItemList;
+  using ItemList = QList<Item>;
 
   static Item LoadItem(QXmlStreamReader *reader) {
     Item ret;

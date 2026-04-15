@@ -28,7 +28,7 @@
 namespace qtsparkle {
 
 class AppCast;
-typedef QSharedPointer<AppCast> AppCastPtr;
+using AppCastPtr = QSharedPointer<AppCast>;
 
 }  // namespace qtsparkle
 
