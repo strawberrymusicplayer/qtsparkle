@@ -25,12 +25,12 @@
 #include <QScopedPointer>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QSettings>
 #include <QDesktopServices>
 
 #include "appcast.h"
 #include "common.h"
-#include "followredirects.h"
 #include "updatedialog.h"
 #include "ui_updatedialog.h"
 
@@ -107,26 +107,28 @@ void UpdateDialog::ShowUpdate(AppCastPtr appcast) {
     if (!d->network_)
       d->network_ = new QNetworkAccessManager(this);
 
-    FollowRedirects *reply = new FollowRedirects(d->network_->get(QNetworkRequest(QUrl(appcast->release_notes_url()))));
-    QObject::connect(reply, &FollowRedirects::Finished, this, &UpdateDialog::ReleaseNotesReady);
+    QNetworkRequest req(QUrl(appcast->release_notes_url()));
+    req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+    QNetworkReply *reply = d->network_->get(req);
+    QObject::connect(reply, &QNetworkReply::finished, this, &UpdateDialog::ReleaseNotesReady);
   }
 
 }
 
 void UpdateDialog::ReleaseNotesReady() {
 
-  FollowRedirects *reply = qobject_cast<FollowRedirects *>(sender());
+  QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
   if (!reply) {
     return;
   }
 
   reply->deleteLater();
 
-  if (reply->reply()->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/html"_L1)) {
-    d->ui_->release_notes->setHtml(QString::fromUtf8(reply->reply()->readAll()));
+  if (reply->header(QNetworkRequest::ContentTypeHeader).toString().contains("text/html"_L1)) {
+    d->ui_->release_notes->setHtml(QString::fromUtf8(reply->readAll()));
   }
   else {
-    d->ui_->release_notes->setPlainText(QString::fromUtf8(reply->reply()->readAll()));
+    d->ui_->release_notes->setPlainText(QString::fromUtf8(reply->readAll()));
   }
 
 }

@@ -32,7 +32,6 @@
 #include "appcast.h"
 #include "common.h"
 #include "compareversions.h"
-#include "followredirects.h"
 #include "updatechecker.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -75,6 +74,7 @@ QNetworkRequest UpdateChecker::Private::MakeRequest(const QUrl &url) {
 
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
+  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
   return req;
 
@@ -95,15 +95,14 @@ void UpdateChecker::Check(const QUrl &appcast_url, const bool override_user_skip
   d->busy_ = true;
   d->override_user_skip_ = override_user_skip;
 
-  FollowRedirects *reply = new FollowRedirects(d->network_->get(d->MakeRequest(appcast_url)));
-  QObject::connect(reply, &FollowRedirects::Finished, this, &UpdateChecker::Finished);
-  QObject::connect(reply, &FollowRedirects::RedirectLimitReached, this, &UpdateChecker::RedirectLimitReached);
+  QNetworkReply *reply = d->network_->get(d->MakeRequest(appcast_url));
+  QObject::connect(reply, &QNetworkReply::finished, this, &UpdateChecker::Finished);
 
 }
 
 void UpdateChecker::Finished() {
 
-  FollowRedirects *reply = qobject_cast<FollowRedirects*>(sender());
+  QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
   if (!reply) {
     return;
   }
@@ -112,7 +111,7 @@ void UpdateChecker::Finished() {
   d->busy_ = false;
 
   AppCastPtr appcast(new AppCast);
-  bool success = appcast->Load(reply->reply());
+  bool success = appcast->Load(reply);
   if (!success) {
     Q_EMIT CheckFailed(appcast->error_reason());
     return;
@@ -136,10 +135,6 @@ void UpdateChecker::Finished() {
 
   Q_EMIT UpdateAvailable(appcast);
 
-}
-
-void UpdateChecker::RedirectLimitReached() {
-  Q_EMIT CheckFailed("Redirect limit reached"_L1);
 }
 
 }  // namespace qtsparkle

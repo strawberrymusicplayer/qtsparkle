@@ -13,7 +13,6 @@ set(SOURCES
   appcast.cpp
   common.cpp
   compareversions.cpp
-  followredirects.cpp
   uicontroller.cpp
   updatechecker.cpp
   updatedialog.cpp

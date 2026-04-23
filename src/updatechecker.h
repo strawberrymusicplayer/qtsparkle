@@ -54,7 +54,6 @@ class UpdateChecker : public QObject {
 
  private Q_SLOTS:
   void Finished();
-  void RedirectLimitReached();
 
  private:
   struct Private;
